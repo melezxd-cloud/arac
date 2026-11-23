@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Şafak Sayar Pro</string>
+    <string name="channel_status">Şafak durumu</string>
+    <string name="channel_status_desc">Bildirim çubuğunda kalan günü ve ilerlemeyi gösterir</string>
+    <string name="channel_milestone">Özel günler</string>
+    <string name="channel_milestone_desc">81 gün kala, acemilik bitişi ve terhis gibi özel günler</string>
+</resources>

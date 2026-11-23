@@ -1,0 +1,46 @@
+# GitHub'a yüklendiğinde APK'yı otomatik derler ve indirme bağlantısı yayınlar.
+name: Safak Sayar APK
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'safak/**'
+      - '.github/workflows/safak-apk.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+
+      - name: APK derle
+        working-directory: safak
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SafakSayarPro-APK
+          path: safak/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Indirme baglantisi yayinla
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp safak/app/build/outputs/apk/debug/app-debug.apk SafakSayarPro.apk
+          gh release delete safak-son --yes --cleanup-tag || true
+          gh release create safak-son SafakSayarPro.apk \
+            --title "Safak Sayar Pro (son surum)" \
+            --notes "Telefonda SafakSayarPro.apk dosyasina dokunup kurun."

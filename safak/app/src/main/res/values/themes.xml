@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="safak_red">#C8102E</color>
+    <color name="safak_white">#FFFFFF</color>
+    <color name="launcher_bg">#C8102E</color>
+
+    <style name="Theme.SafakSayar" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/safak_red</item>
+        <item name="android:navigationBarColor">@color/safak_white</item>
+        <item name="android:windowBackground">@color/safak_white</item>
+    </style>
+</resources>
