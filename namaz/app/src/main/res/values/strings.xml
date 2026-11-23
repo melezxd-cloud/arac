@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vakit</string>
+
+    <!--
+      REKLAM KİMLİKLERİ
+      Aşağıdakiler Google'ın resmi TEST kimlikleridir. Uygulama Play Store'a
+      çıkmadan önce bunları kendi AdMob hesabınızdaki gerçek kimliklerle
+      değiştirin. Test kimlikleriyle yayınlarsanız gelir elde edemezsiniz;
+      gerçek kimliklerle test ederken kendi reklamlarınıza tıklamayın,
+      AdMob hesabınız kapatılır.
+    -->
+    <string name="admob_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="admob_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+</resources>

@@ -1,0 +1,67 @@
+# "Vakit – Namaz Saatleri" uygulamasını derler.
+# Her zaman test için APK üretir. Play Store'a yüklenecek imzalı AAB ise
+# yalnızca depoda keystore secret'ları tanımlıysa üretilir.
+name: Vakit APK
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'namaz/**'
+      - '.github/workflows/vakit-apk.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: namaz
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+
+      - name: Test APK derle
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Imzali AAB derle (keystore varsa)
+        if: ${{ secrets.KEYSTORE_BASE64 != '' }}
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > "$RUNNER_TEMP/upload.jks"
+          export KEYSTORE_FILE="$RUNNER_TEMP/upload.jks"
+          ./gradlew bundleRelease --no-daemon
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Vakit-APK
+          path: namaz/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Indirme baglantisi yayinla
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd "$GITHUB_WORKSPACE"
+          cp namaz/app/build/outputs/apk/debug/app-debug.apk Vakit.apk
+          FILES="Vakit.apk"
+          if [ -f namaz/app/build/outputs/bundle/release/app-release.aab ]; then
+            cp namaz/app/build/outputs/bundle/release/app-release.aab Vakit-PlayStore.aab
+            FILES="$FILES Vakit-PlayStore.aab"
+          fi
+          gh release delete vakit-son --yes --cleanup-tag || true
+          gh release create vakit-son $FILES \
+            --title "Vakit - Namaz Saatleri (son surum)" \
+            --notes "Telefonda Vakit.apk dosyasina dokunup kurun. AAB dosyasi Play Console icindir."

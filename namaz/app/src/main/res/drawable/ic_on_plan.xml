@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Uygulama ikonu ön planı: sekiz köşeli yıldız içinde hilal -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:strokeColor="#DCB65A"
+        android:strokeWidth="2.6"
+        android:fillColor="#00000000"
+        android:pathData="M34,34h40v40h-40z" />
+    <path
+        android:strokeColor="#DCB65A"
+        android:strokeWidth="2.6"
+        android:fillColor="#00000000"
+        android:pathData="M54,25.7L82.3,54 54,82.3 25.7,54z" />
+    <path
+        android:fillColor="#F6F1E0"
+        android:pathData="M58.5,41.5a13,13 0,1 0,0 25 10.5,10.5 0,1 1,0 -25z" />
+    <path
+        android:fillColor="#DCB65A"
+        android:pathData="M68,45.5l1.7,4.1 4.3,0.3 -3.3,2.8 1,4.2 -3.7,-2.3 -3.7,2.3 1,-4.2 -3.3,-2.8 4.3,-0.3z" />
+</vector>

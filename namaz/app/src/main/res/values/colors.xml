@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="zemin">#0A3328</color>
+    <color name="zemin_koyu">#072319</color>
+    <color name="desen">#1C6B52</color>
+    <color name="altin">#DCB65A</color>
+    <color name="altin_koyu">#8A6A14</color>
+    <color name="krem">#F6F1E0</color>
+    <color name="krem_yumusak">#E9E3D1</color>
+    <color name="yesil_acik">#9FC2B2</color>
+    <color name="yesil_soluk">#7FA392</color>
+    <color name="mavi_metin">#B5D2C2</color>
+    <color name="koyu_metin">#17210C</color>
+    <color name="kart">#14402F</color>
+    <color name="kart_cizgi">#1F5B45</color>
+</resources>

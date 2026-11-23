@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/kart"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="18dp"
+    android:paddingEnd="8dp">
+
+    <TextView
+        android:id="@+id/tvAd"
+        style="@style/VakitAdi" />
+
+    <TextView
+        android:id="@+id/tvSaat"
+        style="@style/VakitSaati"
+        android:layout_marginEnd="6dp" />
+
+    <ImageView
+        android:id="@+id/btnZil"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="11dp"
+        android:src="@drawable/ic_zil" />
+</LinearLayout>

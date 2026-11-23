@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Zümrüt yeşili zemin + tekrarlayan geometrik desen + alta doğru koyulaşan solus -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <color android:color="@color/zemin" />
+    </item>
+    <item>
+        <bitmap
+            android:src="@drawable/desen"
+            android:tileMode="repeat"
+            android:gravity="top|start" />
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:startColor="#260A3328"
+                android:centerColor="#BF0A3328"
+                android:endColor="#F7072319"
+                android:type="linear" />
+        </shape>
+    </item>
+</layer-list>
