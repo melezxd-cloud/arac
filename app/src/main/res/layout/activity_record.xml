@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/kirmizi"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <!-- Başlık -->
+    <LinearLayout style="@style/Baslik">
+        <TextView
+            android:id="@+id/btnGeri"
+            style="@style/BaslikButon"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Geri"
+            android:text="←" />
+        <TextView
+            android:id="@+id/tvBaslik"
+            style="@style/BaslikYazi" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/beyaz"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                style="@style/Etiket"
+                android:layout_marginTop="0dp"
+                android:text="Araç" />
+
+            <TextView
+                android:id="@+id/tvArac"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/siyah"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/Etiket"
+                android:text="Tarih / Saat" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvTarih"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/siyah"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/btnTarih"
+                    style="@style/IkinciButon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:text="Değiştir" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/Etiket"
+                android:text="Kayıt türü" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@drawable/kutu_giris"
+                android:padding="2dp">
+
+                <Spinner
+                    android:id="@+id/spTur"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/siyah"
+                    android:spinnerMode="dialog" />
+            </FrameLayout>
+
+            <TextView
+                style="@style/Etiket"
+                android:text="Aracın bölümü" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@drawable/kutu_giris"
+                android:padding="2dp">
+
+                <Spinner
+                    android:id="@+id/spBolum"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/siyah"
+                    android:spinnerMode="dialog" />
+            </FrameLayout>
+
+            <TextView
+                style="@style/Etiket"
+                android:text="Açıklama / Not" />
+
+            <EditText
+                android:id="@+id/etNot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/kutu_giris"
+                android:gravity="top|start"
+                android:hint="Örn: Arka sağ çamurlukta 20 cm çizik, boya kalkmış."
+                android:inputType="textMultiLine|textCapSentences"
+                android:minLines="5"
+                android:padding="12dp"
+                android:textColor="@color/siyah"
+                android:textColorHint="@color/gri"
+                android:textSize="16sp" />
+
+            <TextView
+                style="@style/Etiket"
+                android:text="Durum" />
+
+            <RadioGroup
+                android:id="@+id/rgDurum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbAcik"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:buttonTint="@color/kirmizi"
+                    android:checked="true"
+                    android:text="Açık (giderilmedi)"
+                    android:textColor="@color/siyah"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:id="@+id/rbGiderildi"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:buttonTint="@color/kirmizi"
+                    android:text="Giderildi"
+                    android:textColor="@color/siyah"
+                    android:textSize="15sp" />
+            </RadioGroup>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Alt butonlar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/beyaz"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <Button
+            android:id="@+id/btnSil"
+            style="@style/IkinciButon"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Sil"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnKaydet"
+            style="@style/AnaButon"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="KAYDET" />
+    </LinearLayout>
+</LinearLayout>

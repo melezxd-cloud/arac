@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/kirmizi"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <!-- Başlık -->
+    <LinearLayout style="@style/Baslik">
+        <TextView
+            style="@style/BaslikYazi"
+            android:text="Araç Denetim Defteri" />
+        <TextView
+            android:id="@+id/btnMenu"
+            style="@style/BaslikButon"
+            android:contentDescription="Menü"
+            android:text="⋮" />
+    </LinearLayout>
+
+    <!-- İçerik -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/beyaz"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            style="@style/Etiket"
+            android:layout_marginTop="0dp"
+            android:text="Araç kodunu yazın" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etKod"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:background="@drawable/kutu_giris"
+                android:hint="Örn: K1565"
+                android:imeOptions="actionGo"
+                android:inputType="textCapCharacters|textNoSuggestions"
+                android:maxLength="20"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:singleLine="true"
+                android:textColor="@color/siyah"
+                android:textColorHint="@color/gri"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnGiris"
+                style="@style/AnaButon"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:layout_marginStart="8dp"
+                android:text="GİRİŞ" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvListeBaslik"
+            style="@style/Etiket"
+            android:layout_marginTop="24dp"
+            android:text="Kayıtlı araçlar" />
+
+        <ListView
+            android:id="@+id/lvAraclar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="8dp" />
+
+        <TextView
+            android:id="@+id/tvBos"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="24dp"
+            android:text="Henüz kayıtlı araç yok.\n\nYukarıya araç kodunu yazıp GİRİŞ butonuna basın."
+            android:textColor="@color/gri"
+            android:textSize="16sp"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

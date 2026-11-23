@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Uygulama ikonu: kırmızı zemin üzerinde beyaz not panosu -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M38,30h32a4,4 0,0 1,4 4v44a4,4 0,0 1,-4 4h-32a4,4 0,0 1,-4 -4v-44a4,4 0,0 1,4 -4z" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M46,26h16v8h-16z" />
+    <path
+        android:fillColor="#C62828"
+        android:pathData="M42,44h24v4h-24zM42,54h24v4h-24zM42,64h16v4h-16z" />
+</vector>
