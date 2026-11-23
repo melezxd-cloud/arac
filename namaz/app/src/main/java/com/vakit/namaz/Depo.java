@@ -106,7 +106,33 @@ public final class Depo {
         return f.exists() && f.length() > 100;
     }
 
-    private static JSONArray ay(Context c, int il, int yil, int ayNo) {
+    /**
+     * Son okunan ay bellekte tutulur. Geri sayım saniyede bir çalıştığı ve
+     * alarmlar kurulurken günlere tek tek bakıldığı için, her seferinde
+     * dosyadan okumak arayüzü yavaşlatırdı.
+     */
+    private static String bellekAnahtar = "";
+    private static JSONArray bellekVeri;
+
+    private static synchronized JSONArray ay(Context c, int il, int yil, int ayNo) {
+        String anahtar = il + "_" + yil + "_" + ayNo;
+        if (anahtar.equals(bellekAnahtar) && bellekVeri != null) return bellekVeri;
+
+        JSONArray arr = ayOku(c, il, yil, ayNo);
+        if (arr != null) {
+            bellekAnahtar = anahtar;
+            bellekVeri = arr;
+        }
+        return arr;
+    }
+
+    /** İndirme sonrası bellekteki eski veriyi düşürür. */
+    private static synchronized void bellegiTemizle() {
+        bellekAnahtar = "";
+        bellekVeri = null;
+    }
+
+    private static JSONArray ayOku(Context c, int il, int yil, int ayNo) {
         File f = dosya(c, il, yil, ayNo);
         if (!f.exists()) return null;
         try (InputStream is = new java.io.FileInputStream(f)) {
@@ -200,6 +226,7 @@ public final class Depo {
             try (FileOutputStream os = new FileOutputStream(f)) {
                 os.write(sade.toString().getBytes(StandardCharsets.UTF_8));
             }
+            bellegiTemizle();
             return true;
 
         } catch (Exception e) {

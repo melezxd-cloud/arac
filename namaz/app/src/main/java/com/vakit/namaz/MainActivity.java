@@ -50,6 +50,8 @@ public class MainActivity extends Activity {
 
     private Depo.Gun bugun;
     private boolean indiriliyor;
+    /** En son vurgulanan vakit; her saniye yeniden çizmemek için tutulur. */
+    private int sonAktif = -2;
 
     private final Runnable tik = new Runnable() {
         @Override
@@ -155,6 +157,7 @@ public class MainActivity extends Activity {
     // ---------------- Veri ----------------
 
     private void ekraniTazele() {
+        sonAktif = -2;   // il veya gün değişmiş olabilir, vurguyu yeniden çiz
         int il = Depo.il(this);
         tvIl.setText(Sehirler.ad(il));
 
@@ -256,8 +259,9 @@ public class MainActivity extends Activity {
             }
         }
 
-        // Şu an hangi vakit içindeyiz: sıradakinden bir önceki
-        int aktif = (siradaki == -1) ? Depo.VAKIT_SAYISI - 1 : siradaki - 1;
+        // Şu an hangi vakit içindeyiz: sıradakinden bir önceki.
+        // Gece yarısı ile imsak arası da hâlâ yatsı vaktidir.
+        int aktif = (siradaki <= 0) ? Depo.VAKIT_SAYISI - 1 : siradaki - 1;
         satirlariIsaretle(aktif);
 
         long kalanSaniye;
@@ -291,6 +295,8 @@ public class MainActivity extends Activity {
 
     /** O an içinde bulunulan vakti altın rengiyle öne çıkarır. */
     private void satirlariIsaretle(int aktif) {
+        if (aktif == sonAktif) return;
+        sonAktif = aktif;
         for (int v = 0; v < Depo.VAKIT_SAYISI; v++) {
             boolean su = (v == aktif);
             satir[v].setBackgroundResource(su ? R.drawable.kart_aktif : R.drawable.kart);
