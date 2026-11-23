@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#C62828">
+<meta name="robots" content="noindex, nofollow, noarchive">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Araç Denetim">
@@ -128,11 +129,6 @@
     border: 1px solid var(--cizgi); border-radius: 8px; padding: 12px; font-size: 15px; }
   .radyo input { accent-color: var(--kirmizi); width: 20px; height: 20px; }
 
-  /* Tablo ekranı */
-  .tablo-sar { overflow: auto; -webkit-overflow-scrolling: touch;
-    border: 1px solid var(--cizgi); border-radius: 8px; }
-  .tablo-sar img { display: block; max-width: none; }
-
   .mesaj { position: fixed; left: 50%; transform: translateX(-50%);
     bottom: calc(env(safe-area-inset-bottom) + 24px);
     background: #222; color: #FFF; padding: 12px 18px; border-radius: 24px;
@@ -141,9 +137,30 @@
   .mesaj.gor { opacity: 1; }
 
   .gizli { display: none !important; }
+
+  /* Şifre ekranı */
+  #kilit { position: fixed; inset: 0; z-index: 100; background: var(--kirmizi);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 28px; text-align: center; }
+  #kilit img { height: 96px; width: auto; margin-bottom: 22px; }
+  #kilit h2 { color: #FFF; font-size: 21px; margin: 0 0 20px; }
+  #kilit input { max-width: 280px; text-align: center; font-size: 19px;
+    border-color: #FFF; letter-spacing: 2px; }
+  #kilit button { max-width: 280px; margin-top: 12px; background: #FFF; color: var(--kirmizi); }
+  #kilitHata { color: #FFE0E0; font-size: 14px; margin-top: 14px; min-height: 20px; }
 </style>
 </head>
 <body>
+
+<div id="kilit">
+  <img src="logo.png" alt="İETT">
+  <h2>Araç Denetim Defteri</h2>
+  <label for="girSifre" style="color:#FFF; font-size:14px; margin-bottom:8px;">Şifre</label>
+  <input type="password" id="girSifre" inputmode="text" autocomplete="off"
+         autocapitalize="off" spellcheck="false" placeholder="••••••••">
+  <button class="btn" id="btnKilitAc">GİRİŞ</button>
+  <p id="kilitHata" role="alert"></p>
+</div>
 
 <header>
   <button class="ust-btn gizli" id="btnGeri" aria-label="Geri">←</button>
@@ -280,17 +297,6 @@
 
     <h2 id="denetimListeBaslik"></h2>
     <div id="denetimListe"></div>
-
-    <div class="bosluk"></div>
-    <button class="btn2" id="btnTabloAc">Denetim tablosunu aç</button>
-  </section>
-
-  <!-- TABLO -->
-  <section id="ekranTablo">
-    <div class="tablo-sar" id="tabloSar">
-      <img src="tablo.png" alt="Amirlik denetim sayıları tablosu" id="tabloResim">
-    </div>
-    <p class="ipucu">Sağ üstteki düğmeyle yakınlaştırıp parmağınızla kaydırarak gezebilirsiniz.</p>
   </section>
 
 </main>
@@ -467,8 +473,7 @@ var EKRANLAR = {
   arac:     { bolum: "ekranArac",    baslik: "",             geri: true,  menu: true },
   kayit:    { bolum: "ekranKayit",   baslik: "Kayıt",        geri: true,  menu: false },
   not:      { bolum: "ekranNot",     baslik: "Hızlı Not",    geri: true,  menu: true },
-  denetim:  { bolum: "ekranDenetim", baslik: "Denetim Sayısı", geri: true, menu: false },
-  tablo:    { bolum: "ekranTablo",   baslik: "Denetim Tablosu", geri: true, menu: true }
+  denetim:  { bolum: "ekranDenetim", baslik: "Denetim Sayısı", geri: true, menu: false }
 };
 
 function ekranAc(ad, yiginaEkle) {
@@ -906,29 +911,9 @@ function denetimYenile() {
   }).join("");
 }
 
-/* ---------------- Tablo ---------------- */
-
-var tabloYakin = true;
-
-function tabloOlcu() {
-  var g = document.querySelector("main").clientWidth - 36;
-  $("tabloResim").style.width = (tabloYakin ? Math.round(g * 2.5) : g) + "px";
-}
-
-$("btnTabloAc").addEventListener("click", function () {
-  ekranAc("tablo");
-  tabloYakin = true;
-  tabloOlcu();
-});
-
 /* ---------------- Menü ---------------- */
 
 $("btnMenu").addEventListener("click", function () {
-  if (suAnki === "tablo") {
-    tabloYakin = !tabloYakin;
-    tabloOlcu();
-    return;
-  }
   if (suAnki === "not") {
     var ad = prompt("Hazır metnin başına gelen tesis adı:", D.ayar.tesis);
     if (ad !== null && ad.trim()) {
@@ -1063,11 +1048,73 @@ function yedekYukle() {
   g.click();
 }
 
-/* ---------------- Açılış ---------------- */
+/* ---------------- Şifre ekranı ---------------- */
 
-window.addEventListener("resize", function () {
-  if (suAnki === "tablo") tabloOlcu();
+/*
+ * Şifre kodun içinde düz metin olarak durmaz, yalnızca karıştırılmış
+ * (SHA-256) karşılığı bulunur. Bu, şifrenin kaynak koddan okunmasını
+ * engeller; ancak sayfa herkesin erişebildiği bir adreste olduğu için
+ * bu ekran ciddi bir koruma değil, yalnızca gelişigüzel girişleri eler.
+ */
+var KILIT_OZET = "7a4da68375d68f690044285c29f101d5a8a6ed350f97761ee8b9b6de96226671";
+var KILIT_ANAHTAR = "aracDenetim_giris";
+
+function ozetle(metin) {
+  var veri = new TextEncoder().encode(metin);
+  return crypto.subtle.digest("SHA-256", veri).then(function (tampon) {
+    return Array.prototype.map.call(new Uint8Array(tampon), function (b) {
+      return ("0" + b.toString(16)).slice(-2);
+    }).join("");
+  });
+}
+
+function kilidiAc() {
+  $("kilit").style.display = "none";
+  $("girKod").focus();
+}
+
+function sifreDene() {
+  var girilen = $("girSifre").value.trim();
+  if (!girilen) { $("kilitHata").textContent = "Şifreyi yazın."; return; }
+
+  if (!window.crypto || !crypto.subtle) {
+    $("kilitHata").textContent = "Bu tarayıcı şifre kontrolünü desteklemiyor.";
+    return;
+  }
+
+  ozetle(girilen).then(function (o) {
+    if (o === KILIT_OZET) {
+      try { localStorage.setItem(KILIT_ANAHTAR, "1"); } catch (e) { /* önemli değil */ }
+      $("girSifre").value = "";
+      $("kilitHata").textContent = "";
+      kilidiAc();
+    } else {
+      $("kilitHata").textContent = "Şifre yanlış.";
+      $("girSifre").value = "";
+      $("girSifre").focus();
+    }
+  }).catch(function () {
+    $("kilitHata").textContent = "Şifre kontrol edilemedi.";
+  });
+}
+
+$("btnKilitAc").addEventListener("click", sifreDene);
+$("girSifre").addEventListener("keydown", function (e) {
+  if (e.key === "Enter") { e.preventDefault(); sifreDene(); }
 });
+
+/* Bir kez doğru şifre girildiyse bu cihazda tekrar sorulmaz */
+try {
+  if (localStorage.getItem(KILIT_ANAHTAR) === "1") {
+    $("kilit").style.display = "none";
+  } else {
+    $("girSifre").focus();
+  }
+} catch (e) {
+  $("girSifre").focus();
+}
+
+/* ---------------- Açılış ---------------- */
 
 anaYenile();
 
