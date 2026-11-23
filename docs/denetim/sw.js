@@ -3,7 +3,7 @@
  * İlk açılışta bütün dosyaları telefona kaydeder, sonra internetsiz çalışır.
  * Dosyalar değişince SURUM numarasını artırmak yeterlidir.
  */
-const SURUM = 'arac-denetim-v3';
+const SURUM = 'arac-denetim-v4';
 
 const DOSYALAR = [
   './',

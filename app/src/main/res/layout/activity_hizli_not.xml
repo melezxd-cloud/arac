@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:buttonTint="@color/kirmizi"
-                android:text="Sonuna &quot;olduğu tespit edildi&quot; eklensin"
+                android:text="Sonuna &quot;tespit edildi&quot; eklensin"
                 android:textColor="@color/siyah"
                 android:textSize="14sp" />
 

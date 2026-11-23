@@ -106,7 +106,7 @@ public class HizliNotActivity extends Activity {
     }
 
     /**
-     * Onay kutusu açıksa cümlenin sonuna "olduğu tespit edildi." ekler.
+     * Onay kutusu açıksa cümlenin sonuna "tespit edildi." ekler.
      * Kullanıcı zaten tam cümle yazdıysa ikinci kez eklemez.
      */
     private String cumleyiTamamla(String sorun) {
@@ -119,8 +119,11 @@ public class HizliNotActivity extends Activity {
         while (s.endsWith(".") || s.endsWith(",")) {
             s = s.substring(0, s.length() - 1).trim();
         }
-        if (kucuk.endsWith("olduğu")) return s + " tespit edildi.";
-        return s + " olduğu tespit edildi.";
+        // "ön cam çatlak olduğu" gibi yazıldıysa sondaki "olduğu" atılır
+        if (s.toLowerCase(TR_DIL).endsWith("olduğu")) {
+            s = s.substring(0, s.length() - 6).trim();
+        }
+        return s + " tespit edildi.";
     }
 
     private void temizle() {
