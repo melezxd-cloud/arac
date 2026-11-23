@@ -28,5 +28,18 @@
             android:name=".RecordActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".HizliNotActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".DenetimActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".TabloActivity"
+            android:exported="false" />
     </application>
 </manifest>

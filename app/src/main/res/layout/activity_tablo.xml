@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/kirmizi"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/Baslik">
+        <TextView
+            android:id="@+id/btnGeri"
+            style="@style/BaslikButon"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Geri"
+            android:text="←" />
+        <TextView
+            style="@style/BaslikYazi"
+            android:text="Denetim Tablosu" />
+        <TextView
+            android:id="@+id/btnZoom"
+            style="@style/BaslikButon"
+            android:contentDescription="Yakınlaştır veya uzaklaştır"
+            android:text="⤢" />
+        <ImageView
+            style="@style/BaslikLogo"
+            android:contentDescription="İETT" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/beyaz">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgTablo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="Amirlik denetim sayıları tablosu"
+                android:src="@drawable/tablo_denetim" />
+        </HorizontalScrollView>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tvIpucu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/beyaz"
+        android:paddingStart="16dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp"
+        android:text="Sağ üstteki düğmeyle yakınlaştırıp parmağınızla kaydırarak gezebilirsiniz."
+        android:textColor="@color/gri"
+        android:textSize="13sp" />
+</LinearLayout>

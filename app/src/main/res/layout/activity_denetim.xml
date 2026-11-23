@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/kirmizi"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/Baslik">
+        <TextView
+            android:id="@+id/btnGeri"
+            style="@style/BaslikButon"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Geri"
+            android:text="←" />
+        <TextView
+            style="@style/BaslikYazi"
+            android:text="Denetim Sayısı" />
+        <TextView
+            android:id="@+id/btnTablo"
+            style="@style/BaslikButon"
+            android:contentDescription="Tabloyu aç"
+            android:text="☰" />
+        <ImageView
+            style="@style/BaslikLogo"
+            android:contentDescription="İETT" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/beyaz"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/tvGun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gri"
+                android:textSize="13sp" />
+
+            <!-- Tekli / Çiftli -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnTekli"
+                    style="@style/AnaButon"
+                    android:layout_width="0dp"
+                    android:layout_height="46dp"
+                    android:layout_weight="1"
+                    android:text="Tekli" />
+
+                <Button
+                    android:id="@+id/btnCiftli"
+                    style="@style/IkinciButon"
+                    android:layout_width="0dp"
+                    android:layout_height="46dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="Çiftli" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/Etiket"
+                android:text="Peron" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/kutu_giris"
+                android:padding="2dp">
+
+                <Spinner
+                    android:id="@+id/spPeron"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/siyah"
+                    android:spinnerMode="dialog" />
+            </FrameLayout>
+
+            <!-- Büyük sayı -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/kutu_sonuc"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvSayi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/kirmizi"
+                    android:textSize="52sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="en az denetim"
+                        android:textColor="@color/siyah"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvSayiAlt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:textColor="@color/gri"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- İlerleme -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/kart"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <TextView
+                    android:id="@+id/tvIlerleme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/siyah"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvKalan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvListeBaslik"
+                style="@style/Etiket"
+                android:layout_marginTop="22dp" />
+
+            <LinearLayout
+                android:id="@+id/peronListesi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <Button
+                android:id="@+id/btnTabloAc"
+                style="@style/IkinciButon"
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:text="Denetim tablosunu aç" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

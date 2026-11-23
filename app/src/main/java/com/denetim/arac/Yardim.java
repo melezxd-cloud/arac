@@ -1,7 +1,11 @@
 package com.denetim.arac;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -66,6 +70,67 @@ public final class Yardim {
         if (v == null) v = a.getWindow().getDecorView();
         InputMethodManager imm = (InputMethodManager) a.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
+
+    public static String saat(long ms) {
+        return new SimpleDateFormat("HH:mm", TR).format(new Date(ms));
+    }
+
+    // ---------------- Hızlı not ayarları ----------------
+
+    private static final String AYAR = "denetim_ayar";
+
+    private static SharedPreferences p(Context c) {
+        return c.getSharedPreferences(AYAR, Context.MODE_PRIVATE);
+    }
+
+    /** Tesis adı; hazır metnin başına gelir. */
+    public static String tesis(Context c) {
+        return p(c).getString("tesis", "Başakşehir Sys");
+    }
+
+    public static void tesisAyarla(Context c, String ad) {
+        p(c).edit().putString("tesis", ad).apply();
+    }
+
+    /** En son seçilen peron hatırlanır. */
+    public static int peron(Context c) {
+        return p(c).getInt("peron", 0);
+    }
+
+    public static void peronAyarla(Context c, int i) {
+        p(c).edit().putInt("peron", i).apply();
+    }
+
+    public static boolean ciftli(Context c) {
+        return p(c).getBoolean("ciftli", false);
+    }
+
+    public static void ciftliAyarla(Context c, boolean v) {
+        p(c).edit().putBoolean("ciftli", v).apply();
+    }
+
+    /** Açıkken metnin sonuna "olduğu tespit edildi." eklenir. */
+    public static boolean otomatikCumle(Context c) {
+        return p(c).getBoolean("oto_cumle", true);
+    }
+
+    public static void otomatikCumleAyarla(Context c, boolean v) {
+        p(c).edit().putBoolean("oto_cumle", v).apply();
+    }
+
+    /** Metni panoya kopyalar. */
+    public static void panoyaKopyala(Context c, String metin) {
+        ClipboardManager cm = (ClipboardManager) c.getSystemService(Context.CLIPBOARD_SERVICE);
+        if (cm == null) {
+            mesaj(c, "Pano açılamadı.");
+            return;
+        }
+        cm.setPrimaryClip(ClipData.newPlainText("Hızlı not", metin));
+        // Android 13 ve üstü kendi "kopyalandı" bildirimini gösterir, iki kez çıkmasın.
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            mesaj(c, "Metin kopyalandı");
+        }
     }
 
     /** Tür + bölüm, ör. "Hasar • Arka". */

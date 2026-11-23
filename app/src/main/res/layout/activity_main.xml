@@ -10,12 +10,15 @@
     <LinearLayout style="@style/Baslik">
         <TextView
             style="@style/BaslikYazi"
-            android:text="Araç Denetim Defteri" />
+            android:text="Araç Denetim" />
         <TextView
             android:id="@+id/btnMenu"
             style="@style/BaslikButon"
             android:contentDescription="Menü"
             android:text="⋮" />
+        <ImageView
+            style="@style/BaslikLogo"
+            android:contentDescription="İETT" />
     </LinearLayout>
 
     <!-- İçerik -->
@@ -64,10 +67,33 @@
                 android:text="GİRİŞ" />
         </LinearLayout>
 
+        <!-- Hızlı Not ve Denetim Sayısı ekranları -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnHizliNot"
+                style="@style/IkinciButon"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="Hızlı Not" />
+
+            <Button
+                android:id="@+id/btnDenetimSayisi"
+                style="@style/IkinciButon"
+                android:layout_width="0dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:text="Denetim Sayısı" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/tvListeBaslik"
             style="@style/Etiket"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:text="Kayıtlı araçlar" />
 
         <ListView

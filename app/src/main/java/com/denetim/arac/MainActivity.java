@@ -60,6 +60,15 @@ public class MainActivity extends Activity {
         findViewById(R.id.btnGiris).setOnClickListener(v -> giris());
         findViewById(R.id.btnMenu).setOnClickListener(this::menuGoster);
 
+        findViewById(R.id.btnHizliNot).setOnClickListener(v -> {
+            Yardim.klavyeyiKapat(this);
+            startActivity(new Intent(this, HizliNotActivity.class));
+        });
+        findViewById(R.id.btnDenetimSayisi).setOnClickListener(v -> {
+            Yardim.klavyeyiKapat(this);
+            startActivity(new Intent(this, DenetimActivity.class));
+        });
+
         etKod.setOnEditorActionListener((v, actionId, event) -> {
             boolean enter = event != null
                     && event.getKeyCode() == KeyEvent.KEYCODE_ENTER

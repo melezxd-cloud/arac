@@ -23,6 +23,9 @@
             style="@style/BaslikButon"
             android:contentDescription="Menü"
             android:text="⋮" />
+        <ImageView
+            style="@style/BaslikLogo"
+            android:contentDescription="İETT" />
     </LinearLayout>
 
     <LinearLayout

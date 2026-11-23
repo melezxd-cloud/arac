@@ -17,13 +17,14 @@ import java.util.Locale;
 /**
  * Telefon hafızasındaki SQLite veritabanı.
  * Tablolar:
- *   arac  : kayıtlı araç kodları
- *   kayit : her araca ait denetim / hasar notları
+ *   arac     : kayıtlı araç kodları
+ *   kayit    : her araca ait denetim / hasar notları
+ *   hizlinot : perondan gönderilen hazır metinler
  */
 public class Db extends SQLiteOpenHelper {
 
     private static final String DOSYA = "denetim.db";
-    private static final int SURUM = 1;
+    private static final int SURUM = 2;
     private static final Locale TR = Locale.forLanguageTag("tr-TR");
 
     private static Db ornek;
@@ -52,11 +53,21 @@ public class Db extends SQLiteOpenHelper {
                 "giderildi INTEGER NOT NULL DEFAULT 0, " +
                 "giderilme INTEGER NOT NULL DEFAULT 0)");
         db.execSQL("CREATE INDEX idx_kayit_kod ON kayit(kod)");
+        hizliNotTablosu(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int eski, int yeni) {
-        // İleride tablo değişikliği olursa burada yapılır.
+        if (eski < 2) hizliNotTablosu(db);
+    }
+
+    private static void hizliNotTablosu(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS hizlinot (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "tarih INTEGER NOT NULL, " +
+                "peron TEXT NOT NULL, " +
+                "metin TEXT NOT NULL)");
+        db.execSQL("CREATE INDEX IF NOT EXISTS idx_hizlinot_tarih ON hizlinot(tarih)");
     }
 
     // ---------------- Modeller ----------------
@@ -210,6 +221,67 @@ public class Db extends SQLiteOpenHelper {
 
     public void kayitSil(long id) {
         getWritableDatabase().delete("kayit", "id = ?", new String[]{String.valueOf(id)});
+    }
+
+    /** Bugün kayıt girilen farklı araç sayısı; denetim ilerlemesi için. */
+    public int bugunDenetlenenArac() {
+        long[] gun = bugununSiniri();
+        try (Cursor c = getReadableDatabase().rawQuery(
+                "SELECT COUNT(DISTINCT kod) FROM kayit WHERE tarih >= ? AND tarih < ?",
+                new String[]{String.valueOf(gun[0]), String.valueOf(gun[1])})) {
+            return c.moveToFirst() ? c.getInt(0) : 0;
+        }
+    }
+
+    /** Bugünün başlangıcı ve bitişi (milisaniye). */
+    static long[] bugununSiniri() {
+        java.util.Calendar c = java.util.Calendar.getInstance();
+        c.set(java.util.Calendar.HOUR_OF_DAY, 0);
+        c.set(java.util.Calendar.MINUTE, 0);
+        c.set(java.util.Calendar.SECOND, 0);
+        c.set(java.util.Calendar.MILLISECOND, 0);
+        long bas = c.getTimeInMillis();
+        return new long[]{ bas, bas + 24L * 60 * 60 * 1000 };
+    }
+
+    // ---------------- Hızlı notlar ----------------
+
+    public static class HizliNot {
+        public long id;
+        public long tarih;
+        public String peron;
+        public String metin;
+    }
+
+    public long hizliNotEkle(String peron, String metin) {
+        ContentValues v = new ContentValues();
+        v.put("tarih", System.currentTimeMillis());
+        v.put("peron", peron);
+        v.put("metin", metin);
+        return getWritableDatabase().insert("hizlinot", null, v);
+    }
+
+    /** Bugün yazılan hızlı notlar, en yenisi en üstte. */
+    public List<HizliNot> bugunkuHizliNotlar() {
+        long[] gun = bugununSiniri();
+        List<HizliNot> liste = new ArrayList<>();
+        try (Cursor c = getReadableDatabase().rawQuery(
+                "SELECT * FROM hizlinot WHERE tarih >= ? AND tarih < ? ORDER BY tarih DESC",
+                new String[]{String.valueOf(gun[0]), String.valueOf(gun[1])})) {
+            while (c.moveToNext()) {
+                HizliNot h = new HizliNot();
+                h.id = c.getLong(c.getColumnIndexOrThrow("id"));
+                h.tarih = c.getLong(c.getColumnIndexOrThrow("tarih"));
+                h.peron = c.getString(c.getColumnIndexOrThrow("peron"));
+                h.metin = c.getString(c.getColumnIndexOrThrow("metin"));
+                liste.add(h);
+            }
+        }
+        return liste;
+    }
+
+    public void hizliNotSil(long id) {
+        getWritableDatabase().delete("hizlinot", "id = ?", new String[]{String.valueOf(id)});
     }
 
     // ---------------- Yedekleme ----------------

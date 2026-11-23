@@ -53,6 +53,16 @@
         <item name="android:focusable">true</item>
     </style>
 
+    <!-- Başlık çubuğunun sağındaki İETT logosu; kırmızı zeminde beyaz görünür -->
+    <style name="BaslikLogo">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">34dp</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:src">@drawable/logo_iett</item>
+        <item name="android:tint">@color/beyaz</item>
+    </style>
+
     <!-- Kırmızı dolu ana buton -->
     <style name="AnaButon">
         <item name="android:layout_height">52dp</item>

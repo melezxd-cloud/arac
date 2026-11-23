@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/kirmizi"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/Baslik">
+        <TextView
+            android:id="@+id/btnGeri"
+            style="@style/BaslikButon"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Geri"
+            android:text="←" />
+        <TextView
+            style="@style/BaslikYazi"
+            android:text="Hızlı Not" />
+        <TextView
+            android:id="@+id/btnTesis"
+            style="@style/BaslikButon"
+            android:contentDescription="Tesis adını değiştir"
+            android:text="⋮" />
+        <ImageView
+            style="@style/BaslikLogo"
+            android:contentDescription="İETT" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/beyaz"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                style="@style/Etiket"
+                android:layout_marginTop="0dp"
+                android:text="Peron" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/kutu_giris"
+                android:padding="2dp">
+
+                <Spinner
+                    android:id="@+id/spPeron"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/siyah"
+                    android:spinnerMode="dialog" />
+            </FrameLayout>
+
+            <TextView
+                style="@style/Etiket"
+                android:text="Tespit edilen sorun" />
+
+            <EditText
+                android:id="@+id/etSorun"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/kutu_giris"
+                android:gravity="top|start"
+                android:hint="Örn: ön cam çatlak"
+                android:inputType="textMultiLine|textCapSentences"
+                android:minLines="4"
+                android:padding="12dp"
+                android:textColor="@color/siyah"
+                android:textColorHint="@color/gri"
+                android:textSize="16sp" />
+
+            <CheckBox
+                android:id="@+id/cbOtoCumle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:buttonTint="@color/kirmizi"
+                android:text="Sonuna &quot;olduğu tespit edildi&quot; eklensin"
+                android:textColor="@color/siyah"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btnTamam"
+                style="@style/AnaButon"
+                android:layout_width="match_parent"
+                android:layout_marginTop="14dp"
+                android:text="TAMAM" />
+
+            <!-- Oluşan metin -->
+            <LinearLayout
+                android:id="@+id/kutuSonuc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/Etiket"
+                    android:text="Hazır metin" />
+
+                <TextView
+                    android:id="@+id/tvSonuc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/kutu_sonuc"
+                    android:lineSpacingExtra="4dp"
+                    android:padding="16dp"
+                    android:textColor="@color/siyah"
+                    android:textIsSelectable="true"
+                    android:textSize="17sp" />
+
+                <Button
+                    android:id="@+id/btnKopyala"
+                    style="@style/AnaButon"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="12dp"
+                    android:text="KOPYALA" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnPaylas"
+                        style="@style/IkinciButon"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text="Paylaş" />
+
+                    <Button
+                        android:id="@+id/btnYeni"
+                        style="@style/IkinciButon"
+                        android:layout_width="0dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:text="Yeni not" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvGecmisBaslik"
+                style="@style/Etiket"
+                android:layout_marginTop="26dp"
+                android:text="Bugün yazdıkların" />
+
+            <LinearLayout
+                android:id="@+id/gecmisListesi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <TextView
+                android:id="@+id/tvGecmisBos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="6dp"
+                android:text="Bugün henüz not yazmadın."
+                android:textColor="@color/gri"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
