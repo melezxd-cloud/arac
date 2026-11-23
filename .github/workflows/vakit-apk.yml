@@ -14,12 +14,15 @@ on:
 permissions:
   contents: write
 
+env:
+  KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+  KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+  KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+  KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: namaz
     steps:
       - uses: actions/checkout@v4
 
@@ -30,18 +33,16 @@ jobs:
           cache: gradle
 
       - name: Test APK derle
+        working-directory: namaz
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
 
       - name: Imzali AAB derle (keystore varsa)
-        if: ${{ secrets.KEYSTORE_BASE64 != '' }}
-        env:
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        if: env.KEYSTORE_BASE64 != ''
+        working-directory: namaz
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > "$RUNNER_TEMP/upload.jks"
+          printf '%s' "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload.jks"
           export KEYSTORE_FILE="$RUNNER_TEMP/upload.jks"
           ./gradlew bundleRelease --no-daemon
 
@@ -54,7 +55,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          cd "$GITHUB_WORKSPACE"
           cp namaz/app/build/outputs/apk/debug/app-debug.apk Vakit.apk
           FILES="Vakit.apk"
           if [ -f namaz/app/build/outputs/bundle/release/app-release.aab ]; then
