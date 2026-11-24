@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="RiriTheme" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/riri_yellow</item>
+        <item name="android:statusBarColor">@color/riri_pink</item>
+        <item name="android:navigationBarColor">@color/riri_yellow</item>
+    </style>
+    <color name="riri_yellow">#FFE36E</color>
+    <color name="riri_pink">#FF4FA3</color>
+    <color name="riri_ink">#3A2A12</color>
+    <color name="riri_berry">#B0105F</color>
+</resources>

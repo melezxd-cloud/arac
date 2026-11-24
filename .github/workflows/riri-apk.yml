@@ -1,0 +1,46 @@
+# riri/ klasörü değişince Riri's Notes APK'sını derler ve indirme bağlantısı yayınlar.
+name: Riris Notes APK
+
+on:
+  push:
+    branches: [riri-build]
+    paths:
+      - 'riri/**'
+      - '.github/workflows/riri-apk.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+
+      - name: APK derle
+        working-directory: riri
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RirisNotes-APK
+          path: riri/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Indirme baglantisi yayinla
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp riri/app/build/outputs/apk/debug/app-debug.apk RirisNotes.apk
+          gh release delete riri-son --yes --cleanup-tag || true
+          gh release create riri-son RirisNotes.apk \
+            --title "Riri's Notes (son surum)" \
+            --notes "Telefonda RirisNotes.apk dosyasina dokunup kurun."
